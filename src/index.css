@@ -1,0 +1,97 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: auto; /* GSAP drives the scroll feel, not native smooth-scroll */
+}
+
+body {
+  margin: 0;
+  background: #050814;
+  color: #f3efe4;
+  font-family: 'Newsreader', Georgia, serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+/* The persistent WebGL stage sits behind the scrolling document. */
+.stage-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Lowest-tier fallback: a static graded hero, no WebGL. */
+.static-hero {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(120% 90% at 50% 18%, rgba(59, 111, 212, 0.28), transparent 55%),
+    radial-gradient(80% 70% at 78% 88%, rgba(200, 16, 46, 0.22), transparent 60%),
+    linear-gradient(180deg, #050814 0%, #0a1024 60%, #050814 100%);
+}
+
+.grain::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* GlitchText scramble glyphs glow in the accent colors. */
+.gt {
+  font-family: 'Space Mono', ui-monospace, monospace;
+}
+.gt-scramble {
+  color: #c8102e;
+  opacity: 0.85;
+}
+
+::selection {
+  background: #c8102e;
+  color: #f3efe4;
+}
+
+/* Thin custom scrollbar to match the cinematic frame. */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #050814;
+}
+::-webkit-scrollbar-thumb {
+  background: #1a2240;
+  border-radius: 4px;
+}
+
+@keyframes scrollLine {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(250%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .static-hero {
+    /* keep gradients static, no implicit transitions */
+  }
+}
