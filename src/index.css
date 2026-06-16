@@ -72,6 +72,16 @@ body {
   border-radius: 4px;
 }
 
+@keyframes floatY {
+  0%,
+  100% {
+    transform: translateY(-5px);
+  }
+  50% {
+    transform: translateY(5px);
+  }
+}
+
 @keyframes scrollLine {
   0% {
     transform: translateY(-100%);

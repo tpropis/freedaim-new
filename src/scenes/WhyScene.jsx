@@ -124,10 +124,11 @@ export default function WhyScene() {
         genStart={scatter}
         genTarget={blueprintTargets}
         color="#5fa8ff"
-        size={tier.name === 'high' ? 2.6 : 2.2}
+        size={tier.name === 'high' ? 1.9 : 1.6}
         drift={0.04}
         parallax={0.14}
         rotationSpeed={0.01}
+        blend="normal"
         getProgress={() => {
           const s = useStore.getState()
           const why = s.reducedMotion ? 0.2 : s.whyProgress
@@ -137,7 +138,7 @@ export default function WhyScene() {
           const s = useStore.getState()
           const why = s.reducedMotion ? 0.2 : s.whyProgress
           const pres = presence(s.scroll, WINDOW.why[0], WINDOW.why[1], 0.07)
-          return clamp(1 - mapRange(why, 0.34, 0.6)) * 0.9 * pres
+          return clamp(1 - mapRange(why, 0.34, 0.6)) * 0.55 * pres
         }}
       />
 
@@ -146,17 +147,18 @@ export default function WhyScene() {
         count={constCount}
         genStart={constellation}
         genTarget={constellation}
-        color="#eef1f6"
-        size={tier.name === 'high' ? 2.4 : 2}
+        color="#9fb4d6"
+        size={tier.name === 'high' ? 1.7 : 1.5}
         drift={0.02}
         parallax={0.2}
         rotationSpeed={0.006}
+        blend="normal"
         getProgress={() => 1}
         getOpacity={() => {
           const s = useStore.getState()
           const why = s.reducedMotion ? 0.85 : s.whyProgress
           const pres = presence(s.scroll, WINDOW.why[0], WINDOW.why[1], 0.07)
-          return mapRange(why, 0.66, 0.92) * 0.8 * pres
+          return mapRange(why, 0.66, 0.92) * 0.5 * pres
         }}
       />
 

@@ -20,13 +20,13 @@ export default function Nav() {
 
   return (
     <nav className="pointer-events-none fixed left-0 top-0 z-50 flex h-full w-16 flex-col items-center justify-between py-7 md:w-20">
-      {/* Wordmark */}
+      {/* Emblem — back to top */}
       <button
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-        className="pointer-events-auto text-sm font-semibold tracking-tight text-bone [writing-mode:vertical-rl] rotate-180"
+        className="pointer-events-auto transition-opacity hover:opacity-80"
         aria-label="freedaim — back to top"
       >
-        freedaim
+        <img src="/logo-mark.svg" alt="freedaim" width={30} height={30} />
       </button>
 
       {/* Section rail */}

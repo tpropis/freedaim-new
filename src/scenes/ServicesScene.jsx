@@ -82,17 +82,18 @@ function ServiceReveal({ service, index, perField }) {
       genStart={scatter}
       genTarget={gen}
       color={service.accent}
-      size={3.2}
+      size={2.1}
       drift={0.05}
       parallax={0.16}
       rotationSpeed={index % 2 === 0 ? 0.05 : -0.04}
+      blend="normal"
       getProgress={() => mapRange(getProg(), sliceStart - 0.03, sliceStart + 0.09)}
       getOpacity={() => {
         const s = useStore.getState()
         const prog = getProg()
         const pres = presence(s.scroll, WINDOW.services[0], WINDOW.services[1], 0.07)
         const focus = clamp(1 - Math.abs(prog - sliceCenter) / (SLICE * 0.85))
-        return focus * pres * 0.95
+        return focus * pres * 0.7
       }}
     />
   )

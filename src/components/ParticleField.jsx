@@ -61,6 +61,7 @@ export default function ParticleField({
   getProgress,
   getOpacity,
   rotationSpeed = 0.02,
+  blend = 'additive',
 }) {
   const pointsRef = useRef()
   const matRef = useRef()
@@ -144,7 +145,7 @@ export default function ParticleField({
           fragmentShader={frag}
           transparent
           depthWrite={false}
-          blending={THREE.AdditiveBlending}
+          blending={blend === 'normal' ? THREE.NormalBlending : THREE.AdditiveBlending}
         />
       </points>
     </group>

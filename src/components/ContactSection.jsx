@@ -1,3 +1,5 @@
+import Wordmark from './Wordmark.jsx'
+
 // Contact / "Let's Build" — closing DOM section. Restrained, generous space.
 export default function ContactSection() {
   return (
@@ -31,9 +33,11 @@ export default function ContactSection() {
         </a>
       </div>
 
-      <footer className="mt-24 flex flex-col gap-2 border-t border-bone/10 pt-8 text-xs uppercase tracking-[0.18em] text-bone/35 sm:flex-row sm:items-center sm:justify-between">
-        <span>freedaim © {new Date().getFullYear()}</span>
-        <span>Strategy · Branding · AI · Execution</span>
+      <footer className="mt-24 flex flex-col gap-4 border-t border-bone/10 pt-8 sm:flex-row sm:items-center sm:justify-between">
+        <Wordmark size={24} />
+        <span className="text-xs uppercase tracking-[0.18em] text-bone/35">
+          © {new Date().getFullYear()} · Strategy · Branding · AI · Execution
+        </span>
       </footer>
     </div>
   )

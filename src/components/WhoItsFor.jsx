@@ -16,12 +16,13 @@ export default function WhoItsFor() {
         {AUDIENCE.items.map((item, i) => (
           <div
             key={i}
-            className="group flex min-h-[15rem] flex-col justify-between bg-ink p-8 transition-colors duration-500 hover:bg-steel"
+            className="group flex min-h-[15rem] flex-col bg-ink p-8 transition-colors duration-500 hover:bg-steel"
           >
-            <span className="text-sm font-medium text-bone/30">
+            <span className="text-sm font-medium text-rust">
               {String(i + 1).padStart(2, '0')}
             </span>
-            <p className="text-lg leading-relaxed text-bone/75">{item}</p>
+            <span className="mt-5 h-px w-full bg-bone/10" />
+            <p className="mt-6 text-lg leading-relaxed text-bone/75">{item}</p>
           </div>
         ))}
       </div>
