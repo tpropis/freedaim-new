@@ -44,7 +44,7 @@ const frag = /* glsl */ `
     if (d > 0.5) discard;
     float a = smoothstep(0.5, 0.0, d);
     // per-point brightness + faint flicker = restrained "signal" energy
-    float f = 0.65 + 0.35 * sin(vSeed * 100.0);
+    float f = 0.45 + 0.25 * sin(vSeed * 100.0);
     gl_FragColor = vec4(uColor * f, a * uOpacity);
   }
 `

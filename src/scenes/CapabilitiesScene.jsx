@@ -131,7 +131,7 @@ export default function CapabilitiesScene() {
         genStart={scatter}
         genTarget={blueprintTargets}
         color="#5fa8ff"
-        size={tier.name === 'high' ? 5 : 4}
+        size={tier.name === 'high' ? 2.6 : 2.2}
         drift={0.04}
         parallax={0.14}
         rotationSpeed={0.01}
@@ -155,7 +155,7 @@ export default function CapabilitiesScene() {
         genStart={constellation}
         genTarget={constellation}
         color="#f3efe4"
-        size={tier.name === 'high' ? 4 : 3}
+        size={tier.name === 'high' ? 2.4 : 2}
         drift={0.02}
         parallax={0.2}
         rotationSpeed={0.006}
@@ -175,15 +175,16 @@ export default function CapabilitiesScene() {
           ref={(el) => (panelRefs.current[i] = el)}
           args={[1.5, 2.0, 0.07]}
           radius={0.05}
-          color="#e3ebf7"
+          color="#9fb4d6"
           tint={i % 2 === 0 ? '#0a3161' : '#c8102e'}
           thickness={0.4}
+          forceCheap
         />
       ))}
 
-      <ambientLight intensity={0.4} />
-      <directionalLight position={[3, 4, 5]} intensity={1.1} color="#ffffff" />
-      <pointLight position={[-4, -2, 3]} intensity={0.8} color="#3b6fd4" />
+      <ambientLight intensity={0.3} />
+      <directionalLight position={[3, 4, 5]} intensity={0.7} color="#ffffff" />
+      <pointLight position={[-4, -2, 3]} intensity={0.5} color="#3b6fd4" />
     </group>
   )
 }

@@ -93,7 +93,7 @@ function ProjectReveal({ project, index, perField }) {
       genStart={scatter}
       genTarget={gen}
       color={project.accent}
-      size={project.form === 'edge' ? 5 : 6}
+      size={project.form === 'edge' ? 3 : 3.4}
       drift={0.05}
       parallax={0.16}
       rotationSpeed={index % 2 === 0 ? 0.05 : -0.04}

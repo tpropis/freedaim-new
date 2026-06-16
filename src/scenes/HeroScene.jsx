@@ -77,41 +77,47 @@ export default function HeroScene() {
         count={tier.particles.hero}
         genStart={genStart}
         color="#3b6fd4"
-        size={tier.name === 'high' ? 7 : 5}
-        drift={0.05}
-        opacity={0.75}
+        size={tier.name === 'high' ? 3 : 2.4}
+        drift={0.04}
+        opacity={0.3}
         parallax={0.18}
-        rotationSpeed={0.015}
+        rotationSpeed={0.012}
         getProgress={() => 0}
       />
 
-      <Float speed={1.1} rotationIntensity={0.25} floatIntensity={0.6}>
-        <group ref={markRef}>
+      {/* The mark sits behind the centered tagline — small and restrained so it
+          reads as a graded backdrop, not a competing object. */}
+      <Float speed={1} rotationIntensity={0.18} floatIntensity={0.4}>
+        <group ref={markRef} position={[0, 0, -1.2]} scale={0.78}>
           {/* Glass slab backing */}
           <GlassPanel
-            args={[1.9, 2.5, 0.12]}
-            radius={0.1}
-            color="#e8eefb"
+            args={[1.35, 1.8, 0.1]}
+            radius={0.09}
+            color="#9db2d4"
             tint="#0a3161"
-            thickness={0.5}
-            position={[0, 0, -0.25]}
+            thickness={0.3}
+            roughness={0.14}
+            position={[0, 0, -0.2]}
           />
           {/* Chrome star, floated in front */}
-          <mesh geometry={starGeo} position={[0, 0, 0.35]}>
+          <mesh geometry={starGeo} position={[0, 0, 0.28]}>
             <meshStandardMaterial
-              color="#dfe4ec"
+              color="#c9d2e0"
               metalness={1}
-              roughness={0.18}
-              envMapIntensity={1.2}
+              roughness={0.28}
+              envMapIntensity={0.9}
             />
           </mesh>
-          {/* Red rim accent behind */}
-          <mesh position={[0, 0, -0.4]}>
-            <ringGeometry args={[1.45, 1.55, 48]} />
-            <meshBasicMaterial color="#c8102e" transparent opacity={0.5} side={THREE.DoubleSide} />
+          {/* Thin red rim accent behind the star */}
+          <mesh position={[0, 0, -0.3]}>
+            <ringGeometry args={[0.82, 0.86, 64]} />
+            <meshBasicMaterial color="#c8102e" transparent opacity={0.35} side={THREE.DoubleSide} />
           </mesh>
         </group>
       </Float>
+
+      <directionalLight position={[2, 3, 4]} intensity={0.8} color="#ffffff" />
+      <ambientLight intensity={0.25} />
     </group>
   )
 }

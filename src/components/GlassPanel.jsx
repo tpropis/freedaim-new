@@ -16,13 +16,17 @@ const GlassPanel = forwardRef(function GlassPanel(
     tint = '#0a3161',
     thickness = 0.6,
     roughness = 0.08,
+    forceCheap = false,
     children,
     ...props
   },
   ref
 ) {
   const tier = useStore((s) => s.tier)
-  const useTransmission = tier.transmission
+  // Each MeshTransmissionMaterial renders the whole scene into its own FBO every
+  // frame — affordable for ONE hero mark, ruinous for a stack of panels. Callers
+  // that render many panels pass forceCheap to drop to a cheap glassy material.
+  const useTransmission = tier.transmission && !forceCheap
 
   return (
     <RoundedBox ref={ref} args={args} radius={radius} smoothness={4} {...props}>
