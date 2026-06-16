@@ -17,6 +17,7 @@ export default {
         display: ['Anton', 'Impact', 'sans-serif'],
         body: ['Newsreader', 'Georgia', 'serif'],
         mono: ['"Space Mono"', 'ui-monospace', 'monospace'],
+        hand: ['Caveat', 'cursive'],
       },
       letterSpacing: {
         ultra: '0.42em',

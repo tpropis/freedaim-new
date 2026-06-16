@@ -9,6 +9,7 @@ const ITEMS = [
   { id: 'why', label: 'Why' },
   { id: 'audience', label: 'Who' },
   { id: 'process', label: 'Process' },
+  { id: 'whiteboard', label: 'Idea' },
   { id: 'contact', label: 'Build' },
 ]
 

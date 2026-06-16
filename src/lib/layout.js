@@ -34,7 +34,15 @@ export const WINDOW = {
 export const CANVAS_FADE_START = 0.72
 
 // Section list (drives Nav highlight + reduced-motion camera snapping).
-export const SECTIONS = ['hero', 'services', 'why', 'audience', 'process', 'contact']
+export const SECTIONS = [
+  'hero',
+  'services',
+  'why',
+  'audience',
+  'process',
+  'whiteboard',
+  'contact',
+]
 
 export const SECTION_ANCHOR = {
   hero: ANCHOR.hero,
@@ -42,6 +50,7 @@ export const SECTION_ANCHOR = {
   why: ANCHOR.why,
   audience: ANCHOR.outro,
   process: ANCHOR.outro,
+  whiteboard: ANCHOR.outro,
   contact: ANCHOR.outro,
 }
 
@@ -130,6 +139,14 @@ export const AUDIENCE = {
     'Founders launching a new service, brand, or SaaS concept',
     "Operators who are tired of being stuck in someone else's system",
   ],
+}
+
+// "The Whiteboard" — interactive idea capture.
+export const WHITEBOARD = {
+  heading: 'The Whiteboard',
+  lines: ['Got an idea?', 'Write it down.', "Let's see if it can become reality."],
+  sub: 'Most people never build because they never start. Start here.',
+  placeholder: 'Write your idea here...',
 }
 
 // Process — the deliberate non-WebGL break.

@@ -5,6 +5,7 @@ import ServicesLabels from './components/ServicesLabels.jsx'
 import WhyLabels from './components/WhyLabels.jsx'
 import WhoItsFor from './components/WhoItsFor.jsx'
 import ProcessSection from './scenes/ProcessSection.jsx'
+import Whiteboard from './components/Whiteboard.jsx'
 import ContactSection from './components/ContactSection.jsx'
 import { useStore } from './lib/store.js'
 import { initScrollController, destroyScrollController } from './lib/scrollController.js'
@@ -76,6 +77,11 @@ export default function App() {
         {/* Process — deliberate non-WebGL break. */}
         <section id="section-process" className="relative z-10 bg-ink">
           <ProcessSection />
+        </section>
+
+        {/* The Whiteboard — interactive idea capture. */}
+        <section id="section-whiteboard" className="relative z-10 bg-ink">
+          <Whiteboard />
         </section>
 
         {/* Let's Build / Contact. */}
