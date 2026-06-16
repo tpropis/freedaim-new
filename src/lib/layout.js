@@ -71,7 +71,7 @@ export const SERVICES = [
     slug: 'launch-strategy',
     name: 'Business Launch Strategy',
     form: 'column',
-    accent: '#c8102e', // rust red
+    accent: '#d8404a', // quiet red
     blurb:
       'Turn scattered ideas into clear business concepts, offers, positioning, and launch plans.',
   },

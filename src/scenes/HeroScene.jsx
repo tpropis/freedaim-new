@@ -94,7 +94,7 @@ export default function HeroScene() {
             args={[1.35, 1.8, 0.1]}
             radius={0.09}
             color="#9db2d4"
-            tint="#0a3161"
+            tint="#13305c"
             thickness={0.3}
             roughness={0.14}
             position={[0, 0, -0.2]}
@@ -104,14 +104,9 @@ export default function HeroScene() {
             <meshStandardMaterial
               color="#c9d2e0"
               metalness={1}
-              roughness={0.28}
-              envMapIntensity={0.9}
+              roughness={0.3}
+              envMapIntensity={0.85}
             />
-          </mesh>
-          {/* Thin red rim accent behind the star */}
-          <mesh position={[0, 0, -0.3]}>
-            <ringGeometry args={[0.82, 0.86, 64]} />
-            <meshBasicMaterial color="#c8102e" transparent opacity={0.35} side={THREE.DoubleSide} />
           </mesh>
         </group>
       </Float>

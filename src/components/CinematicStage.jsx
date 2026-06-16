@@ -44,8 +44,8 @@ function StageEnvironment() {
     <Environment resolution={128} frames={1}>
       <Lightformer intensity={0.7} position={[0, 3, 4]} scale={[5, 5, 1]} color="#ffffff" />
       <Lightformer intensity={0.45} position={[-5, 1, 2]} scale={[3, 6, 1]} color="#3b6fd4" />
-      <Lightformer intensity={0.4} position={[5, -1, 1]} scale={[3, 6, 1]} color="#c8102e" />
-      <Lightformer intensity={0.2} position={[0, -4, -3]} scale={[6, 3, 1]} color="#0a3161" />
+      <Lightformer intensity={0.35} position={[5, -1, 1]} scale={[3, 6, 1]} color="#d8404a" />
+      <Lightformer intensity={0.2} position={[0, -4, -3]} scale={[6, 3, 1]} color="#13305c" />
     </Environment>
   )
 }
@@ -97,8 +97,8 @@ export default function CinematicStage() {
         camera={{ position: [0, 0, 6.4], fov: 42, near: 0.1, far: 200 }}
         onCreated={() => setReady(true)}
       >
-        <color attach="background" args={['#050814']} />
-        <fog attach="fog" args={['#050814', 6, 17]} />
+        <color attach="background" args={['#070a12']} />
+        <fog attach="fog" args={['#070a12', 6, 17]} />
 
         <Suspense fallback={null}>
           <StageEnvironment />

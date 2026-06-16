@@ -40,7 +40,7 @@ export default function App() {
   }, [])
 
   return (
-    <div className="grain relative">
+    <div className="relative">
       <Nav />
 
       {/* Persistent WebGL stage (or static gradient on the lowest tier). */}

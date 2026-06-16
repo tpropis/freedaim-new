@@ -1,72 +1,59 @@
-import { useStore } from '../lib/store.js'
 import { HERO } from '../lib/layout.js'
-import GlitchText from './GlitchText.jsx'
+import Reveal from './Reveal.jsx'
 
-// Hero DOM overlay — the real headline resolves via GlitchText on load (not on
-// scroll), plus the two primary CTAs and a minimal scroll indicator. Lives in
-// the document so type stays crisp and the hero reads as interactive before
-// WebGL finishes booting.
+// Hero DOM overlay — calm fade-in headline, the real subtext and the two
+// primary CTAs. Lives in the document so type stays crisp and the hero reads as
+// interactive before WebGL finishes booting.
 function scrollTo(id) {
   document.getElementById(`section-${id}`)?.scrollIntoView({ behavior: 'smooth' })
 }
 
 export default function HeroOverlay() {
-  const reducedMotion = useStore((s) => s.reducedMotion)
-
   return (
     <div className="relative z-10 flex h-screen flex-col items-center justify-center px-6 text-center">
-      <p className="mb-6 rounded-full border border-bone/15 px-4 py-1.5 font-mono text-[10px] uppercase tracking-[0.3em] text-bone/70 md:text-xs">
+      <Reveal className="mb-8 block text-[11px] font-medium uppercase tracking-[0.28em] text-bone/45">
         {HERO.eyebrow}
-      </p>
+      </Reveal>
 
-      <h1 className="font-display text-[clamp(2.6rem,9vw,8rem)] uppercase leading-[0.86] text-bone">
-        {HERO.lines.map((line) => (
-          <GlitchText
-            key={line}
-            as="span"
-            className="block"
-            text={line}
-            autoStart
-            reducedMotion={reducedMotion}
-            speed={1.1}
-          />
+      <h1 className="max-w-4xl text-[clamp(2.6rem,7.5vw,6.5rem)] font-semibold leading-[0.98] tracking-tight text-bone">
+        {HERO.lines.map((line, i) => (
+          <Reveal key={line} as="span" className="block" delay={120 + i * 90}>
+            {line}
+          </Reveal>
         ))}
-        <GlitchText
-          as="span"
-          className="block text-rust"
-          text={HERO.accentWord}
-          autoStart
-          reducedMotion={reducedMotion}
-          speed={0.85}
-        />
+        <Reveal as="span" className="block text-rust" delay={120 + HERO.lines.length * 90}>
+          {HERO.accentWord}
+        </Reveal>
       </h1>
 
-      <p className="mt-8 max-w-xl font-body text-base leading-relaxed text-bone/65 md:text-lg">
+      <Reveal
+        as="p"
+        delay={420}
+        className="mt-8 max-w-xl text-base leading-relaxed text-bone/55 md:text-lg"
+      >
         {HERO.subtext}
-      </p>
+      </Reveal>
 
-      <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row">
+      <Reveal delay={520} className="mt-11 flex flex-col items-center gap-3 sm:flex-row">
         <button
           onClick={() => scrollTo('contact')}
-          className="inline-flex items-center gap-3 rounded-md bg-rust px-7 py-3.5 font-mono text-sm uppercase tracking-[0.15em] text-bone transition-transform hover:scale-[1.03]"
+          className="rounded-full bg-rust px-7 py-3 text-sm font-medium text-white transition-all hover:bg-rust/90"
         >
-          Build My Idea <span aria-hidden="true">→</span>
+          Build My Idea
         </button>
         <button
           onClick={() => scrollTo('services')}
-          className="inline-flex items-center gap-3 rounded-md border border-bone/25 px-7 py-3.5 font-mono text-sm uppercase tracking-[0.15em] text-bone transition-colors hover:border-bone/60"
+          className="rounded-full px-7 py-3 text-sm font-medium text-bone/70 transition-colors hover:text-bone"
         >
-          See What We Can Build
+          See what we can build →
         </button>
-      </div>
+      </Reveal>
 
       {/* Scroll indicator */}
       <div className="absolute bottom-10 flex flex-col items-center gap-3">
-        <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-bone/40">
-          Scroll
-        </span>
-        <span className="relative block h-10 w-px overflow-hidden bg-bone/20">
-          <span className="absolute left-0 top-0 h-4 w-px animate-[scrollLine_1.8s_ease-in-out_infinite] bg-rust" />
+        <span className="text-[10px] uppercase tracking-[0.25em] text-bone/30">Scroll</span>
+        <span className="relative block h-9 w-px overflow-hidden bg-bone/15">
+          <span className="absolute left-0 top-0 h-4 w-px animate-[scrollLine_1.8s_ease-in-out_infinite] bg-rust/80" />
         </span>
       </div>
     </div>

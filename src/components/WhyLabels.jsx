@@ -1,12 +1,10 @@
 import { useStore } from '../lib/store.js'
 import { WHY } from '../lib/layout.js'
-import GlitchText from './GlitchText.jsx'
+import Reveal from './Reveal.jsx'
 
 // Sticky overlay for the "Why freedaim" section. Each sub-state (Structure /
-// Execution / Systems) gets its own GlitchText label switched by the scrubbed
-// whyProgress, paired with the real "reasons people stay stuck" copy. A closing
-// banner resolves the section.
-
+// Execution / Systems) fades in as whyProgress scrubs, paired with the real
+// "reasons people stay stuck" copy and a closing line.
 export default function WhyLabels() {
   const whyProgress = useStore((s) => s.whyProgress)
   const reducedMotion = useStore((s) => s.reducedMotion)
@@ -15,11 +13,12 @@ export default function WhyLabels() {
   const p = WHY.phases[phase]
 
   return (
-    <div className="sticky top-0 flex h-screen flex-col justify-center pl-24 pr-6 md:pl-32">
-      <p className="mb-3 font-mono text-xs uppercase tracking-ultra text-rust">
-        ✦ {WHY.eyebrow}
+    <div className="sticky top-0 flex h-screen flex-col justify-center pl-24 pr-6 md:pl-36">
+      <p className="mb-5 flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.2em] text-bone/45">
+        <span className="h-px w-7 bg-rust" />
+        {WHY.eyebrow}
       </p>
-      <p className="mb-8 max-w-xl font-display text-2xl uppercase leading-tight text-bone/80 md:text-3xl">
+      <p className="mb-9 max-w-xl text-2xl font-medium leading-snug text-bone/80 md:text-3xl">
         {WHY.heading}
       </p>
 
@@ -27,46 +26,44 @@ export default function WhyLabels() {
         <div className="space-y-6">
           {WHY.phases.map((ph) => (
             <div key={ph.key}>
-              <h3 className="font-display text-3xl uppercase text-bone md:text-4xl">
+              <h3 className="text-3xl font-semibold tracking-tight text-bone md:text-4xl">
                 {ph.label}
               </h3>
-              <p className="mt-1 max-w-sm font-body text-bone/60">{ph.problem}</p>
+              <p className="mt-1 max-w-sm text-bone/55">{ph.problem}</p>
             </div>
           ))}
         </div>
       ) : (
         <>
-          <p className="mb-2 font-mono text-xs uppercase tracking-[0.2em] text-bone/40">
+          <p className="mb-2 text-xs font-medium uppercase tracking-[0.2em] text-bone/30">
             {p.n} / 03
           </p>
-          <GlitchText
+          <Reveal
             key={p.key}
             as="h3"
-            autoStart
-            text={p.label}
-            speed={1.3}
-            className="font-display text-[clamp(3rem,10vw,7rem)] uppercase leading-none text-bone"
-            style={{ fontFamily: 'Anton, sans-serif' }}
-          />
-          <p className="mt-5 max-w-md font-body text-lg leading-relaxed text-bone/60">
+            className="text-[clamp(2.6rem,7vw,5.5rem)] font-semibold leading-none tracking-tight text-bone"
+          >
+            {p.label}
+          </Reveal>
+          <Reveal key={p.key + '-b'} as="p" delay={80} className="mt-5 max-w-md text-lg leading-relaxed text-bone/55">
             {p.problem}
-          </p>
+          </Reveal>
         </>
       )}
 
       {/* phase rail */}
-      <div className="mt-12 flex gap-3">
+      <div className="mt-12 flex gap-2.5">
         {WHY.phases.map((ph, i) => (
           <span
             key={ph.key}
-            className={`h-1 w-12 rounded-full transition-colors duration-300 ${
+            className={`h-px w-12 transition-colors duration-300 ${
               i === phase ? 'bg-rust' : 'bg-bone/15'
             }`}
           />
         ))}
       </div>
 
-      <p className="mt-10 max-w-lg font-body text-lg text-bone/70">
+      <p className="mt-10 max-w-lg text-lg text-bone/65">
         {WHY.closer[0]}
         <span className="text-rust">{WHY.closer[1]}</span>
         {WHY.closer[2]}

@@ -1,9 +1,7 @@
 import { useStore } from '../lib/store.js'
 
-// Persistent minimal sidebar — present from Hero onward. Active item is driven
-// by the shared store (set by ScrollTrigger section toggles). Order follows the
-// brief: Work / Capabilities / Process / Contact.
-
+// Persistent minimal sidebar — clean rail, no flourishes. Active item is driven
+// by the shared store (set by ScrollTrigger section toggles).
 const ITEMS = [
   { id: 'services', label: 'Services' },
   { id: 'why', label: 'Why' },
@@ -14,47 +12,39 @@ const ITEMS = [
 ]
 
 function scrollToSection(id) {
-  const el = document.getElementById(`section-${id}`)
-  if (!el) return
-  el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  document.getElementById(`section-${id}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
 }
 
 export default function Nav() {
   const active = useStore((s) => s.active)
 
   return (
-    <nav className="fixed left-0 top-0 z-50 flex h-full w-16 flex-col items-center justify-between py-6 md:w-20 pointer-events-none">
+    <nav className="pointer-events-none fixed left-0 top-0 z-50 flex h-full w-16 flex-col items-center justify-between py-7 md:w-20">
       {/* Wordmark */}
       <button
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-        className="pointer-events-auto font-display text-bone tracking-tight leading-none text-center"
+        className="pointer-events-auto text-sm font-semibold tracking-tight text-bone [writing-mode:vertical-rl] rotate-180"
         aria-label="freedaim — back to top"
       >
-        <span className="block text-[10px] tracking-ultra text-rust">★</span>
-        <span className="mt-2 block text-xs [writing-mode:vertical-rl] rotate-180">
-          FREEDAIM
-        </span>
+        freedaim
       </button>
 
       {/* Section rail */}
-      <ul className="pointer-events-auto flex flex-col gap-5">
+      <ul className="pointer-events-auto flex flex-col items-center gap-6">
         {ITEMS.map((item) => {
           const isActive = active === item.id
           return (
-            <li key={item.id} className="flex items-center justify-center">
+            <li key={item.id}>
               <button
                 onClick={() => scrollToSection(item.id)}
-                className="group relative flex flex-col items-center gap-2"
+                className="group flex items-center justify-center"
                 aria-current={isActive ? 'true' : undefined}
               >
                 <span
-                  className={`h-px transition-all duration-300 ${
-                    isActive ? 'w-6 bg-rust' : 'w-3 bg-chrome/30 group-hover:bg-chrome/60'
-                  }`}
-                />
-                <span
-                  className={`font-mono text-[9px] uppercase tracking-[0.2em] [writing-mode:vertical-rl] rotate-180 transition-colors duration-300 ${
-                    isActive ? 'text-bone' : 'text-chrome/40 group-hover:text-chrome/80'
+                  className={`text-[11px] font-medium uppercase tracking-[0.15em] [writing-mode:vertical-rl] rotate-180 transition-colors duration-300 ${
+                    isActive
+                      ? 'text-bone'
+                      : 'text-bone/30 group-hover:text-bone/70'
                   }`}
                 >
                   {item.label}
@@ -65,16 +55,12 @@ export default function Nav() {
         })}
       </ul>
 
-      {/* Status dot */}
-      <div className="pointer-events-auto flex flex-col items-center gap-2">
-        <span className="relative flex h-2 w-2">
-          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-rust opacity-60" />
-          <span className="relative inline-flex h-2 w-2 rounded-full bg-rust" />
-        </span>
-        <span className="font-mono text-[8px] uppercase tracking-[0.2em] text-chrome/40 [writing-mode:vertical-rl] rotate-180">
-          USA · Open
-        </span>
-      </div>
+      {/* Active marker dot */}
+      <span
+        className={`h-1.5 w-1.5 rounded-full transition-colors duration-300 ${
+          active === 'hero' ? 'bg-bone/20' : 'bg-rust'
+        }`}
+      />
     </nav>
   )
 }

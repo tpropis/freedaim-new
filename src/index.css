@@ -7,14 +7,15 @@
 }
 
 html {
-  scroll-behavior: auto; /* GSAP drives the scroll feel, not native smooth-scroll */
+  scroll-behavior: auto; /* GSAP drives the scroll feel */
 }
 
 body {
   margin: 0;
-  background: #050814;
-  color: #f3efe4;
-  font-family: 'Newsreader', Georgia, serif;
+  background: #070a12;
+  color: #eef1f6;
+  font-family: 'Hanken Grotesk', system-ui, sans-serif;
+  font-weight: 400;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
@@ -36,45 +37,38 @@ body {
   inset: 0;
   z-index: 0;
   background:
-    radial-gradient(120% 90% at 50% 18%, rgba(59, 111, 212, 0.28), transparent 55%),
-    radial-gradient(80% 70% at 78% 88%, rgba(200, 16, 46, 0.22), transparent 60%),
-    linear-gradient(180deg, #050814 0%, #0a1024 60%, #050814 100%);
+    radial-gradient(110% 80% at 50% 16%, rgba(59, 111, 212, 0.18), transparent 58%),
+    linear-gradient(180deg, #070a12 0%, #0d1220 62%, #070a12 100%);
 }
 
-.grain::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 60;
-  pointer-events: none;
-  opacity: 0.05;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+/* Calm reveal — fade + small rise on mount (re-keyed elements re-animate). */
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+  will-change: opacity, transform;
 }
-
-/* GlitchText scramble glyphs glow in the accent colors. */
-.gt {
-  font-family: 'Space Mono', ui-monospace, monospace;
-}
-.gt-scramble {
-  color: #c8102e;
-  opacity: 0.85;
+.reveal.in {
+  opacity: 1;
+  transform: none;
 }
 
 ::selection {
-  background: #c8102e;
-  color: #f3efe4;
+  background: #d8404a;
+  color: #fff;
 }
 
-/* Thin custom scrollbar to match the cinematic frame. */
+/* Thin custom scrollbar. */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 7px;
 }
 ::-webkit-scrollbar-track {
-  background: #050814;
+  background: #070a12;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1a2240;
+  background: #1a2238;
   border-radius: 4px;
 }
 
@@ -91,7 +85,9 @@ body {
   html {
     scroll-behavior: auto;
   }
-  .static-hero {
-    /* keep gradients static, no implicit transitions */
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }

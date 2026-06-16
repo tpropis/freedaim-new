@@ -146,7 +146,7 @@ export default function WhyScene() {
         count={constCount}
         genStart={constellation}
         genTarget={constellation}
-        color="#f3efe4"
+        color="#eef1f6"
         size={tier.name === 'high' ? 2.4 : 2}
         drift={0.02}
         parallax={0.2}
@@ -168,7 +168,7 @@ export default function WhyScene() {
           args={[1.5, 2.0, 0.07]}
           radius={0.05}
           color="#9fb4d6"
-          tint={i % 2 === 0 ? '#0a3161' : '#c8102e'}
+          tint="#13305c"
           thickness={0.4}
           forceCheap
         />
