@@ -13,7 +13,7 @@ gsap.registerPlugin(ScrollTrigger)
 let ctx = null
 
 export function initScrollController() {
-  const { setScroll, setCapProgress, setWorkProgress, setActive, reducedMotion } =
+  const { setScroll, setServicesProgress, setWhyProgress, setActive, reducedMotion } =
     useStore.getState()
 
   // Reduced motion: no scrubbed camera work. Sections still update the active
@@ -43,27 +43,27 @@ export function initScrollController() {
 
     if (reducedMotion) return
 
-    // Capabilities: scrub through Strategy → Build → Scale sub-states.
-    const capEl = document.getElementById('section-capabilities')
-    if (capEl) {
+    // Services: scrub through the four service reveals.
+    const servicesEl = document.getElementById('section-services')
+    if (servicesEl) {
       ScrollTrigger.create({
-        trigger: capEl,
+        trigger: servicesEl,
         start: 'top top',
         end: 'bottom bottom',
         scrub: true,
-        onUpdate: (self) => setCapProgress(self.progress),
+        onUpdate: (self) => setServicesProgress(self.progress),
       })
     }
 
-    // Work: scrub through the five project reveals.
-    const workEl = document.getElementById('section-work')
-    if (workEl) {
+    // Why freedaim: scrub through Structure → Execution → Systems.
+    const whyEl = document.getElementById('section-why')
+    if (whyEl) {
       ScrollTrigger.create({
-        trigger: workEl,
+        trigger: whyEl,
         start: 'top top',
         end: 'bottom bottom',
         scrub: true,
-        onUpdate: (self) => setWorkProgress(self.progress),
+        onUpdate: (self) => setWhyProgress(self.progress),
       })
     }
   })

@@ -3,10 +3,10 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { Environment, Lightformer, AdaptiveDpr, Preload } from '@react-three/drei'
 import * as THREE from 'three'
 import HeroScene from '../scenes/HeroScene.jsx'
-import CapabilitiesScene from '../scenes/CapabilitiesScene.jsx'
-import WorkScene from '../scenes/WorkScene.jsx'
+import ServicesScene from '../scenes/ServicesScene.jsx'
+import WhyScene from '../scenes/WhyScene.jsx'
 import { useStore } from '../lib/store.js'
-import { CAMERA_KEYS, SECTION_ANCHOR } from '../lib/layout.js'
+import { CAMERA_KEYS, SECTION_ANCHOR, CANVAS_FADE_START } from '../lib/layout.js'
 import { sampleKeys, lerp } from '../lib/range.js'
 
 // Camera Rig — the scroll-driven dolly. Camera travels down the world column
@@ -67,16 +67,19 @@ export default function CinematicStage() {
   const tier = useStore.getState().tier
   const setReady = useStore((s) => s.setReady)
 
-  // Hero is always present; capabilities + work mount as they approach view.
-  const mountCaps = useNearScroll(0.1, 0.6)
-  const mountWork = useNearScroll(0.38, 0.84)
+  // Hero is always present; services + why mount as they approach view.
+  const mountServices = useNearScroll(0.06, 0.5)
+  const mountWhy = useNearScroll(0.36, 0.76)
 
-  // Canvas fully fades out for the DOM Process/Contact break.
+  // Canvas fully fades out for the DOM "Who It's For" / Process / Contact break.
   const fadeRef = useRef()
   useEffect(() => {
     return useStore.subscribe((s) => {
       if (!fadeRef.current) return
-      const o = s.scroll > 0.8 ? Math.max(0, 1 - (s.scroll - 0.8) / 0.08) : 1
+      const o =
+        s.scroll > CANVAS_FADE_START
+          ? Math.max(0, 1 - (s.scroll - CANVAS_FADE_START) / 0.06)
+          : 1
       fadeRef.current.style.opacity = String(o)
     })
   }, [])
@@ -101,8 +104,8 @@ export default function CinematicStage() {
           <StageEnvironment />
           <Rig />
           <HeroScene />
-          {mountCaps && <CapabilitiesScene />}
-          {mountWork && <WorkScene />}
+          {mountServices && <ServicesScene />}
+          {mountWhy && <WhyScene />}
           <Preload all />
         </Suspense>
 

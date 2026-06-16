@@ -5,10 +5,11 @@ import { useStore } from '../lib/store.js'
 // brief: Work / Capabilities / Process / Contact.
 
 const ITEMS = [
-  { id: 'work', label: 'Work', index: '01' },
-  { id: 'capabilities', label: 'Capabilities', index: '02' },
-  { id: 'process', label: 'Process', index: '03' },
-  { id: 'contact', label: 'Contact', index: '04' },
+  { id: 'services', label: 'Services' },
+  { id: 'why', label: 'Why' },
+  { id: 'audience', label: 'Who' },
+  { id: 'process', label: 'Process' },
+  { id: 'contact', label: 'Build' },
 ]
 
 function scrollToSection(id) {

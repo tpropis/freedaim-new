@@ -1,8 +1,9 @@
 import { Suspense, lazy, useEffect } from 'react'
 import Nav from './components/Nav.jsx'
 import HeroOverlay from './components/HeroOverlay.jsx'
-import CapabilitiesLabels from './components/CapabilitiesLabels.jsx'
-import WorkLabels from './components/WorkLabels.jsx'
+import ServicesLabels from './components/ServicesLabels.jsx'
+import WhyLabels from './components/WhyLabels.jsx'
+import WhoItsFor from './components/WhoItsFor.jsx'
 import ProcessSection from './scenes/ProcessSection.jsx'
 import ContactSection from './components/ContactSection.jsx'
 import { useStore } from './lib/store.js'
@@ -57,14 +58,19 @@ export default function App() {
           <HeroOverlay />
         </section>
 
-        {/* Capabilities — tall to scrub Strategy → Build → Scale. */}
-        <section id="section-capabilities" className="relative h-[320vh]">
-          <CapabilitiesLabels />
+        {/* Services — tall to scrub the four reveals. */}
+        <section id="section-services" className="relative h-[300vh]">
+          <ServicesLabels />
         </section>
 
-        {/* Work — tall to scrub the five reveals. */}
-        <section id="section-work" className="relative h-[300vh]">
-          <WorkLabels />
+        {/* Why freedaim — tall to scrub Structure → Execution → Systems. */}
+        <section id="section-why" className="relative h-[300vh]">
+          <WhyLabels />
+        </section>
+
+        {/* Who It's For — calmer DOM section, canvas fading out. */}
+        <section id="section-audience" className="relative z-10 bg-ink">
+          <WhoItsFor />
         </section>
 
         {/* Process — deliberate non-WebGL break. */}
@@ -72,7 +78,7 @@ export default function App() {
           <ProcessSection />
         </section>
 
-        {/* Contact. */}
+        {/* Let's Build / Contact. */}
         <section id="section-contact" className="relative z-10 bg-ink">
           <ContactSection />
         </section>

@@ -7,16 +7,16 @@ import { useStore } from '../lib/store.js'
 import { ANCHOR, WINDOW } from '../lib/layout.js'
 import { presence, mapRange, lerp, clamp } from '../lib/range.js'
 
-// CapabilitiesScene — three scroll-bound sub-states inside one scene:
-//   Strategy : line/wireframe particles assemble into a loose blueprint box
-//   Build    : flat glass panels fly into a locked stacked arrangement
-//   Scale    : panels recede + shrink, a constellation grid takes over
+// WhyScene — the "Why freedaim" narrative rendered as a three-state assembly that
+// MEANS the content: scattered chaos → assembled structure → locked systems.
+//   Structure : line/wireframe particles assemble into a blueprint box
+//   Execution : flat glass panels fly into a locked stacked arrangement
+//   Systems   : panels recede + a clean constellation grid takes over
 //
-// All driven by capProgress (0..1), the scrubbed value for this section.
+// Driven by whyProgress (0..1), the scrubbed value for this section.
 
 const PANEL_COUNT = 5
 
-// Loose wireframe-box target: points scattered along the 12 edges of a cube.
 function blueprintTargets(i) {
   const S = 2.6
   const corners = [
@@ -48,7 +48,6 @@ function scatter() {
   ]
 }
 
-// Constellation grid the panels "recede" into during Scale.
 function constellation(i, n) {
   const cols = Math.ceil(Math.sqrt(n))
   const x = (i % cols) - cols / 2
@@ -56,12 +55,11 @@ function constellation(i, n) {
   return [x * 0.5, y * 0.5, -2 + (Math.random() - 0.5) * 0.6]
 }
 
-export default function CapabilitiesScene() {
+export default function WhyScene() {
   const groupRef = useRef()
   const panelRefs = useRef([])
   const tier = useStore.getState().tier
 
-  // Per-panel scattered start + locked stacked slot.
   const panels = useMemo(() => {
     const arr = []
     for (let i = 0; i < PANEL_COUNT; i++) {
@@ -70,13 +68,11 @@ export default function CapabilitiesScene() {
         (Math.random() - 0.5) * 7,
         (Math.random() - 0.5) * 6
       )
-      // Locked stack: fanned slightly, descending z.
       const stacked = new THREE.Vector3(
         (i - (PANEL_COUNT - 1) / 2) * 0.22,
         (i - (PANEL_COUNT - 1) / 2) * 0.16,
         (i - (PANEL_COUNT - 1) / 2) * -0.55
       )
-      // Receded grid slot for Scale.
       const grid = new THREE.Vector3(
         ((i % 3) - 1) * 1.1,
         (Math.floor(i / 3) - 0.5) * 1.1,
@@ -90,22 +86,20 @@ export default function CapabilitiesScene() {
 
   useFrame(() => {
     const state = useStore.getState()
-    const cap = state.reducedMotion ? 0.7 : state.capProgress
-    const pres = presence(state.scroll, WINDOW.capabilities[0], WINDOW.capabilities[1], 0.07)
+    const why = state.reducedMotion ? 0.7 : state.whyProgress
+    const pres = presence(state.scroll, WINDOW.why[0], WINDOW.why[1], 0.07)
 
-    const buildT = mapRange(cap, 0.3, 0.62)
-    const scaleT = mapRange(cap, 0.62, 0.96)
+    const buildT = mapRange(why, 0.3, 0.62)
+    const scaleT = mapRange(why, 0.62, 0.96)
 
     const g = groupRef.current
     if (g) {
       g.visible = pres > 0.01
-      // Camera "pull back" feel during Scale: whole scene recedes + shrinks.
       const sc = (0.8 + pres * 0.2) * lerp(1, 0.7, scaleT)
       g.scale.setScalar(sc)
       g.position.z = lerp(0, -3, scaleT)
     }
 
-    // Panels: scattered → stacked → receded grid.
     for (let i = 0; i < PANEL_COUNT; i++) {
       const ref = panelRefs.current[i]
       if (!ref) continue
@@ -113,9 +107,8 @@ export default function CapabilitiesScene() {
       const a = p.start.clone().lerp(p.stacked, buildT)
       a.lerp(p.grid, scaleT)
       ref.position.copy(a)
-      ref.rotation.z = p.rot * (1 - buildT) // straighten as they lock
-      const panelScale = lerp(1, 0.5, scaleT)
-      ref.scale.setScalar(panelScale)
+      ref.rotation.z = p.rot * (1 - buildT)
+      ref.scale.setScalar(lerp(1, 0.5, scaleT))
       ref.visible = pres > 0.01 && buildT > 0.001
     }
   })
@@ -124,8 +117,8 @@ export default function CapabilitiesScene() {
   const constCount = Math.floor(tier.particles.capabilities * 0.4)
 
   return (
-    <group ref={groupRef} position={[0, ANCHOR.capabilities, 0]}>
-      {/* Strategy: blueprint assembly */}
+    <group ref={groupRef} position={[0, ANCHOR.why, 0]}>
+      {/* Structure: blueprint assembly */}
       <ParticleField
         count={blueprintCount}
         genStart={scatter}
@@ -137,19 +130,18 @@ export default function CapabilitiesScene() {
         rotationSpeed={0.01}
         getProgress={() => {
           const s = useStore.getState()
-          const cap = s.reducedMotion ? 0.2 : s.capProgress
-          return mapRange(cap, 0.02, 0.32) // assemble during Strategy
+          const why = s.reducedMotion ? 0.2 : s.whyProgress
+          return mapRange(why, 0.02, 0.32)
         }}
         getOpacity={() => {
           const s = useStore.getState()
-          const cap = s.reducedMotion ? 0.2 : s.capProgress
-          const pres = presence(s.scroll, WINDOW.capabilities[0], WINDOW.capabilities[1], 0.07)
-          // bright in Strategy, fade as Build takes over
-          return clamp(1 - mapRange(cap, 0.34, 0.6)) * 0.9 * pres
+          const why = s.reducedMotion ? 0.2 : s.whyProgress
+          const pres = presence(s.scroll, WINDOW.why[0], WINDOW.why[1], 0.07)
+          return clamp(1 - mapRange(why, 0.34, 0.6)) * 0.9 * pres
         }}
       />
 
-      {/* Scale: constellation grid the panels recede into */}
+      {/* Systems: constellation grid the panels recede into */}
       <ParticleField
         count={constCount}
         genStart={constellation}
@@ -162,13 +154,13 @@ export default function CapabilitiesScene() {
         getProgress={() => 1}
         getOpacity={() => {
           const s = useStore.getState()
-          const cap = s.reducedMotion ? 0.85 : s.capProgress
-          const pres = presence(s.scroll, WINDOW.capabilities[0], WINDOW.capabilities[1], 0.07)
-          return mapRange(cap, 0.66, 0.92) * 0.8 * pres
+          const why = s.reducedMotion ? 0.85 : s.whyProgress
+          const pres = presence(s.scroll, WINDOW.why[0], WINDOW.why[1], 0.07)
+          return mapRange(why, 0.66, 0.92) * 0.8 * pres
         }}
       />
 
-      {/* Build: glass panels */}
+      {/* Execution: glass panels lock into place */}
       {panels.map((_, i) => (
         <GlassPanel
           key={i}

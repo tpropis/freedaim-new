@@ -34,22 +34,28 @@ that travel is the cinematic path.
 
 ```
 src/
-  scenes/      HeroScene, CapabilitiesScene, WorkScene, ProcessSection (DOM)
+  scenes/      HeroScene, ServicesScene, WhyScene, ProcessSection (DOM)
   components/  Nav, GlitchText, ParticleField, GlassPanel, CinematicStage, overlays
   lib/         scrollController (GSAP), perfTier (device tiering), store, layout, range
 ```
 
-## Scenes
+All copy lives in `src/lib/layout.js`, transcribed from the live freedaim.com.
+
+## Scenes (mapped to the real site content)
 
 - **Hero** — chrome star on a glass slab, low-density drifting particle field
-  with cursor parallax; tagline resolves via GlitchText on load.
-- **Capabilities** — scrubbed Strategy → Build → Scale: blueprint particle
-  assembly → locked glass-panel stack → recede into a constellation grid.
-- **Work** — five projects, each a distinct particle form + single-color accent
-  (lattice / edge / ring / column / network). Clicking a name opens the stubbed
-  case-study modal.
-- **Process** — intentional non-WebGL break: calm editorial typography
-  (idea → infra → launch).
+  with cursor parallax. "Stop Working on Someone Else's Dream." resolves via
+  GlitchText on load.
+- **Services** — scrubbed reveal of the four services (Business Launch Strategy,
+  Branding & Websites, AI & Automation, Sales & Growth Tools), each a distinct
+  particle form + single-color accent (column / ring / lattice / network).
+- **Why freedaim** — scrubbed Structure → Execution → Systems assembly
+  (blueprint particles → locked glass-panel stack → constellation grid) that
+  literally enacts "chaos → structure → systems" behind the three reasons people
+  stay stuck.
+- **Who It's For / Process / Let's Build** — calmer DOM sections; the canvas
+  fades out for a deliberate non-WebGL break (Process = Clarify · Build ·
+  Automate · Launch).
 
 ## Performance & accessibility
 
