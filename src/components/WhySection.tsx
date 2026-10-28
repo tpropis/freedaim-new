@@ -61,8 +61,8 @@ export default function WhySection() {
 
         <div className="mt-16 flex flex-col gap-8 border-t border-ink/30 pt-10 md:mt-20 md:flex-row md:items-center md:justify-between">
           <p data-ink="fade" className="max-w-[760px] font-display text-[clamp(1.7rem,3vw,2.6rem)] leading-[1.2]">
-            freedaim exists to close the gap between <em className="text-ink-red">ambition</em> and{" "}
-            <em className="text-ink-red">action</em>.
+            freedaim exists to close the gap between <em>ambition</em> and{" "}
+            <em>action</em>.
           </p>
           <span
             data-ink="stamp"

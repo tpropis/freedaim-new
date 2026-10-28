@@ -36,11 +36,11 @@ export default function ServicesSection() {
           <p data-ink="fade" className="smallcaps text-ink-muted">
             The Articles <span className="text-ink-red">·</span> What We Do
           </p>
-          <h2 className="mt-5 leading-[0.9]">
-            <span data-ink="press" className="block font-wood text-[clamp(2.6rem,6.4vw,5.6rem)] tracking-[0.01em]">
+          <h2 className="mt-5 font-wood leading-[0.9] tracking-[0.01em]">
+            <span data-ink="press" className="block text-[clamp(1.9rem,4.4vw,3.8rem)] text-ink-muted">
               Ideas Don’t Need More Thinking.
             </span>
-            <span data-ink="wipe" className="mt-1 block font-display text-[clamp(2.6rem,6vw,5.2rem)] italic text-ink-red">
+            <span data-ink="press" className="mt-2 inline-block border-b-[6px] border-ink pb-2 text-[clamp(3rem,7.6vw,6.6rem)]">
               They Need Execution.
             </span>
           </h2>

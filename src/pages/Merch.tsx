@@ -91,7 +91,7 @@ export default function Merch() {
         <h1 data-ink="press" className="mt-5 font-wood text-[clamp(3.6rem,11vw,8.4rem)] leading-[0.88] tracking-[0.01em]">
           Wear the Mission.
         </h1>
-        <p data-ink="wipe" className="mt-3 font-display text-[clamp(1.5rem,3.2vw,2.3rem)] italic text-ink-red">
+        <p data-ink="fade" className="mx-auto mt-5 max-w-[34ch] font-caslon text-[clamp(1.1rem,2vw,1.35rem)] text-ink-soft">
           Premium drops for the ones building their own dream.
         </p>
 
@@ -127,9 +127,9 @@ export default function Merch() {
           className="group mx-auto mt-12 flex max-w-[760px] flex-col items-center gap-2 border-y-[3px] border-double border-ink py-4 sm:flex-row sm:justify-center sm:gap-4"
           aria-label="Open the 250 Iconic Americans guide"
         >
-          <span className="smallcaps text-ink-red">Shirt Roster</span>
+          <span className="smallcaps text-ink-muted">Shirt Roster</span>
           <span className="font-caslon text-[17px]">Who made the shirt? Open the 250-person chaos report.</span>
-          <span className="font-caslon font-bold text-ink-red transition-transform group-hover:translate-x-1">/250 →</span>
+          <span className="font-caslon font-bold text-ink underline decoration-1 underline-offset-4 transition-transform group-hover:translate-x-1">/250 →</span>
         </Link>
       </section>
 
@@ -180,7 +180,7 @@ export default function Merch() {
 
                   <div className="mt-5">
                     <Link to={`/product/${p.node.handle}`} className="flex items-baseline gap-3">
-                      <h3 className="font-display text-2xl leading-tight transition-colors group-hover:text-ink-red">{p.node.title}</h3>
+                      <h3 className="font-display text-2xl leading-tight transition-colors group-hover:underline group-hover:decoration-1 group-hover:underline-offset-4">{p.node.title}</h3>
                       <span className="mb-[6px] min-w-6 flex-1 border-b border-dotted border-ink/40" aria-hidden="true" />
                       <span className="font-caslon text-lg">{money(price.amount, price.currencyCode)}</span>
                     </Link>
@@ -192,12 +192,12 @@ export default function Merch() {
                         aria-label="See who is on the 250 Iconic Americans shirt"
                       >
                         <span>
-                          <span className="smallcaps block text-[10px] text-ink-red">ID the lineup</span>
+                          <span className="smallcaps block text-[10px] text-ink-muted">ID the lineup</span>
                           <span className="block font-caslon text-sm italic text-ink-soft">
                             Before your uncle starts yelling “who is that guy?”
                           </span>
                         </span>
-                        <span className="shrink-0 font-caslon font-bold text-ink-red">/250</span>
+                        <span className="shrink-0 font-caslon font-bold text-ink underline decoration-1 underline-offset-4">/250</span>
                       </Link>
                     )}
 

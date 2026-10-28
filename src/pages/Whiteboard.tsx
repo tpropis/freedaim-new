@@ -101,8 +101,8 @@ export default function Whiteboard() {
           <h1 data-ink="press" className="mt-5 font-wood text-[clamp(3.4rem,10vw,7.6rem)] leading-[0.88] tracking-[0.01em]">
             The Whiteboard
           </h1>
-          <p data-ink="wipe" className="mt-1 font-display text-[clamp(1.8rem,4vw,2.8rem)] italic text-ink-red">
-            Sign the Declaration.
+          <p data-ink="fade" className="smallcaps mt-4 text-[13px] text-ink">
+            — Sign the Declaration —
           </p>
           <p data-ink="fade" className="mx-auto mt-8 max-w-md font-caslon text-xl leading-[1.55] text-ink">
             Got an idea?
@@ -243,7 +243,7 @@ export default function Whiteboard() {
           <ol className="mt-10 grid gap-8 sm:grid-cols-2 md:grid-cols-4">
             {steps.map((s, i) => (
               <li key={s.title} data-ink="fade" className="border-t-2 border-ink pt-4">
-                <span className="font-caslon text-sm font-bold text-ink-red">{["I", "II", "III", "IV"][i]}.</span>
+                <span className="font-caslon text-sm font-bold text-ink">{["I", "II", "III", "IV"][i]}.</span>
                 <h3 className="mt-2 font-display text-xl leading-tight">{s.title}</h3>
                 <p className="mt-2 font-caslon text-[15px] leading-[1.5] text-ink-soft">{s.desc}</p>
               </li>

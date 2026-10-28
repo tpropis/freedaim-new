@@ -133,7 +133,7 @@ export default function ProductDetail() {
               <h1 data-ink="wipe" className="mt-4 font-display text-[clamp(2.4rem,4.6vw,3.8rem)] leading-[1.02]">
                 {product.node.title}
               </h1>
-              <p className="mt-4 font-caslon text-3xl text-ink-red">
+              <p className="mt-4 font-caslon text-3xl text-ink">
                 {displayedPrice ? money(displayedPrice.amount, displayedPrice.currencyCode) : ""}
               </p>
 
@@ -144,17 +144,17 @@ export default function ProductDetail() {
                   aria-label="Open the 250 Iconic Americans guide"
                 >
                   <span>
-                    <span className="smallcaps block text-[11px] text-ink-red">Shirt witness protection list</span>
+                    <span className="smallcaps block text-[11px] text-ink-muted">Shirt witness protection list</span>
                     <span className="mt-1 block font-caslon italic text-ink-soft">
                       Tap here before you spend 45 minutes zooming in like the FBI.
                     </span>
                   </span>
-                  <span className="shrink-0 font-caslon font-bold text-ink-red">/250 →</span>
+                  <span className="shrink-0 font-caslon font-bold text-ink underline decoration-1 underline-offset-4">/250 →</span>
                 </Link>
               )}
 
               <div
-                className="mt-8 max-w-none font-caslon text-[17px] leading-[1.65] text-ink-soft [&_a]:text-ink-red [&_a]:underline [&_li]:my-1 [&_p]:my-2 [&_strong]:text-ink [&_ul]:list-disc [&_ul]:pl-5"
+                className="mt-8 max-w-none font-caslon text-[17px] leading-[1.65] text-ink-soft [&_a]:text-ink [&_a]:underline [&_li]:my-1 [&_p]:my-2 [&_strong]:text-ink [&_ul]:list-disc [&_ul]:pl-5"
                 dangerouslySetInnerHTML={{ __html: product.node.description.replace(/\n/g, "<br/>") }}
               />
 

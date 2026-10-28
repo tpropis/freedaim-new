@@ -119,7 +119,7 @@ export default function Exhibit({
         </div>
       </div>
       <figcaption className="mt-5 flex flex-col gap-1">
-        <span className="smallcaps text-ink-red">{label}</span>
+        <span className="smallcaps text-ink">{label}</span>
         <span className="font-display text-2xl leading-tight">{title}</span>
         <span className="max-w-[460px] font-caslon text-[15px] leading-[1.55] text-ink-soft">{caption}</span>
       </figcaption>

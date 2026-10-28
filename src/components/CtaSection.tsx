@@ -11,13 +11,13 @@ export default function CtaSection() {
     <section id="cta" ref={root} className="relative overflow-hidden bg-ink py-28 text-paper-light md:py-36">
       <div className="mx-auto max-w-[1180px] px-5 text-center md:px-10">
         <p data-ink="fade" className="smallcaps text-paper-light/55">
-          In Witness Whereof <span className="text-[#E0515A]">★</span>
+          In Witness Whereof <span className="text-ink-red">★</span>
         </p>
-        <h2 className="mt-6 leading-[0.88]">
-          <span data-ink="press" className="block font-wood text-[clamp(3rem,8.4vw,7.6rem)] tracking-[0.01em]">
+        <h2 className="mt-6 font-wood leading-[0.88] tracking-[0.01em]">
+          <span data-ink="press" className="block text-[clamp(2.2rem,5.6vw,5rem)] text-paper-light/60">
             You can keep waiting.
           </span>
-          <span data-ink="wipe" className="block font-display text-[clamp(3rem,8vw,7.2rem)] italic text-[#E0515A]">
+          <span data-ink="press" className="mt-2 inline-block border-b-[6px] border-paper-light pb-2 text-[clamp(3.2rem,9vw,8.2rem)]">
             Or you can build it.
           </span>
         </h2>
