@@ -1,16 +1,19 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import { Copy, Check } from "lucide-react";
 import { Loader2 } from "lucide-react";
+import { useGSAP } from "@gsap/react";
 import Navbar from "@/components/Navbar";
-import { Button } from "@/components/ui/button";
+import Footer from "@/components/Footer";
+import Ornament from "@/components/declaration/Ornament";
+import { useInk } from "@/components/declaration/useInk";
+import { gsap, reducedMotion } from "@/lib/motion";
 import { fetchProducts, ShopifyProduct } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
 
 const PEOPLE_GUIDE_PATH = "/250";
 const ICONIC_AMERICANS_PRICE = "45.47";
+const PROMO_CODE = "LOLgbtq";
 
 const isIconicAmericansDrop = (product: ShopifyProduct) =>
   product.node.title.toLowerCase().includes("250 iconic americans");
@@ -23,22 +26,36 @@ const displayPriceFor = (product: ShopifyProduct) => {
   };
 };
 
+const money = (amount: string, currency: string) => (currency === "USD" ? "$" : `${currency} `) + parseFloat(amount).toFixed(2);
+
+// The merch store as "The General Store": a founding-era printed catalog.
 export default function Merch() {
+  const root = useRef<HTMLDivElement>(null);
   const [products, setProducts] = useState<ShopifyProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const addItem = useCartStore((s) => s.addItem);
   const isLoading = useCartStore((s) => s.isLoading);
   const [copied, setCopied] = useState(false);
+  useInk(root);
 
   const copyCode = async () => {
-    await navigator.clipboard.writeText("LOLgbtq");
+    await navigator.clipboard.writeText(PROMO_CODE);
     setCopied(true);
-    toast.success("Code copied: LOLgbtq", { position: "top-center" });
+    toast.success(`Code copied: ${PROMO_CODE}`, { position: "top-center" });
     setTimeout(() => setCopied(false), 1800);
   };
 
+  // the "Copied" stamp lands on the coupon
+  useGSAP(
+    () => {
+      if (!copied || reducedMotion) return;
+      gsap.fromTo(".coupon-stamp", { autoAlpha: 0, scale: 1.9, rotate: -30 }, { autoAlpha: 1, scale: 1, rotate: -12, duration: 0.4, ease: "back.out(2.2)" });
+    },
+    { dependencies: [copied], scope: root }
+  );
+
   useEffect(() => {
-    document.title = "Merch — Freedaim";
+    document.title = "Merch — freedaim";
     fetchProducts(50)
       .then(setProducts)
       .catch((e) => console.error(e))
@@ -63,205 +80,149 @@ export default function Merch() {
   };
 
   return (
-    <div className="min-h-screen bg-[#030712] text-foreground">
-      <Navbar showCart />
+    <div ref={root} className="theme-paper min-h-screen">
+      <Navbar showCart tone="paper" />
 
-      {/* Hero */}
-      <section className="relative pt-32 pb-16 px-4">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(212,58,78,0.12),_transparent_60%)] pointer-events-none" />
-        <div
-          className="absolute inset-0 opacity-[0.04] pointer-events-none"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(255,255,255,.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.5) 1px, transparent 1px)",
-            backgroundSize: "48px 48px",
-          }}
-        />
-        <div className="relative max-w-6xl mx-auto text-center">
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-xs uppercase tracking-[0.3em] text-crimson font-semibold mb-4"
-          >
-            Freedaim Merch
-          </motion.p>
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-5xl md:text-7xl font-black tracking-tight mb-4"
-          >
-            Wear the Mission.
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="text-lg text-muted-foreground max-w-xl mx-auto"
-          >
-            Premium drops for the ones building their own dream.
-          </motion.p>
+      {/* masthead */}
+      <section className="mx-auto max-w-[1180px] px-5 pb-14 pt-32 text-center md:px-10 md:pt-40">
+        <p data-ink="fade" className="smallcaps text-ink-muted">
+          The General Store <span className="text-ink-red">★</span> freedaim Merch
+        </p>
+        <h1 data-ink="press" className="mt-5 font-wood text-[clamp(3.6rem,11vw,8.4rem)] leading-[0.88] tracking-[0.01em]">
+          Wear the Mission.
+        </h1>
+        <p data-ink="wipe" className="mt-3 font-display text-[clamp(1.5rem,3.2vw,2.3rem)] italic text-ink-red">
+          Premium drops for the ones building their own dream.
+        </p>
 
-          {/* Promo banner — 13 Colonies gag */}
-          <motion.button
+        {/* the 13 Colonies code, printed as a tear-off coupon */}
+        <div data-ink="fade" className="mt-12 flex flex-col items-center">
+          <button
             type="button"
             onClick={copyCode}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="group mt-8 inline-flex items-center gap-3 rounded-full border border-crimson/50 bg-crimson/10 px-5 py-2.5 text-sm font-semibold text-foreground backdrop-blur-sm hover:border-crimson hover:bg-crimson/20 hover:shadow-[0_0_30px_-8px_rgba(212,58,78,0.6)] transition-all"
-            aria-label="Copy discount code LOLgbtq"
+            className="group relative border-2 border-dashed border-ink/60 bg-paper-light px-8 py-5 text-center shadow-[5px_5px_0_rgba(23,20,15,0.12)] transition-transform duration-200 hover:-rotate-1"
+            aria-label={`Copy discount code ${PROMO_CODE}`}
           >
-            <span className="hidden sm:inline text-xs uppercase tracking-[0.2em] text-crimson">
-              13 colonies, 13 off
+            <span className="smallcaps block text-[10px] text-ink-muted">Coupon No. 13 · One per founding patriot</span>
+            <span className="mt-2 block font-wood text-3xl tracking-[0.06em] text-ink-red md:text-4xl">13 Colonies, 13 Off</span>
+            <span className="mt-2 block font-type text-lg text-ink">
+              CODE: <strong className="tracking-[0.08em]">{PROMO_CODE}</strong>
             </span>
-            <span className="font-black tracking-wide">
-              CODE: <span className="text-crimson">LOLgbtq</span>
+            <span className="smallcaps mt-3 block text-[10px] text-ink-muted group-hover:text-ink">
+              {copied ? "Copied to clipboard" : "Tap to copy"}
             </span>
-            {copied ? (
-              <Check size={14} className="text-crimson" />
-            ) : (
-              <Copy size={14} className="opacity-70 group-hover:opacity-100" />
+            {copied && (
+              <span className="coupon-stamp pointer-events-none absolute -right-6 -top-5 border-[3px] border-ink-red bg-paper-light/80 px-3 py-1 font-wood text-2xl tracking-[0.1em] text-ink-red">
+                Copied
+              </span>
             )}
-          </motion.button>
-          <p className="mt-3 text-xs text-muted-foreground/80">
-            Tap to copy. Apply at checkout for $13 off — one per founding patriot.
-          </p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="mx-auto mt-8 max-w-2xl border-y border-border/60 py-4"
-          >
-            <Link
-              to={PEOPLE_GUIDE_PATH}
-              className="group flex flex-col items-center justify-center gap-2 text-center sm:flex-row sm:gap-4"
-              aria-label="Open the 250 Iconic Americans guide"
-            >
-              <span className="text-xs font-black uppercase tracking-[0.24em] text-crimson">
-                Shirt roster
-              </span>
-              <span className="text-sm font-semibold text-foreground sm:text-base">
-                Who made the shirt? Open the 250-person chaos report.
-              </span>
-              <span className="text-sm font-black text-crimson transition-transform group-hover:translate-x-1">
-                /250 →
-              </span>
-            </Link>
-          </motion.div>
+          </button>
+          <p className="mt-4 font-caslon text-sm italic text-ink-muted">Apply at checkout for $13 off.</p>
         </div>
+
+        {/* the shirt roster, set as a printed notice */}
+        <Link
+          data-ink="fade"
+          to={PEOPLE_GUIDE_PATH}
+          className="group mx-auto mt-12 flex max-w-[760px] flex-col items-center gap-2 border-y-[3px] border-double border-ink py-4 sm:flex-row sm:justify-center sm:gap-4"
+          aria-label="Open the 250 Iconic Americans guide"
+        >
+          <span className="smallcaps text-ink-red">Shirt Roster</span>
+          <span className="font-caslon text-[17px]">Who made the shirt? Open the 250-person chaos report.</span>
+          <span className="font-caslon font-bold text-ink-red transition-transform group-hover:translate-x-1">/250 →</span>
+        </Link>
       </section>
 
+      <Ornament />
 
-
-      {/* Products */}
-      <section className="px-4 pb-24">
-        <div className="max-w-7xl mx-auto">
-          {loading ? (
-            <div className="flex items-center justify-center py-24">
-              <Loader2 className="w-8 h-8 animate-spin text-crimson" />
-            </div>
-          ) : products.length === 0 ? (
-            <div className="text-center py-24 border border-border/40 rounded-xl">
-              <p className="text-muted-foreground">No products found.</p>
-            </div>
-          ) : (
-            <div
-              className={
-                products.length === 1
-                  ? "flex justify-center"
-                  : "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
-              }
-            >
-              {products.map((p, idx) => {
-                const img = p.node.images.edges[0]?.node;
-                const price = displayPriceFor(p);
-                const available = p.node.variants.edges.some((v) => v.node.availableForSale);
-                const hasOptions = p.node.options.some(
-                  (o) => !(o.values.length === 1 && o.values[0] === "Default Title")
-                );
-                const isRosterShirt = isIconicAmericansDrop(p);
-                // Card sizing — tweak these to control card dimensions per breakpoint.
-                const cardSize = "w-full max-w-[280px] sm:max-w-[320px] md:max-w-[360px] lg:max-w-[380px] mx-auto";
-                const imageHeight = "h-64 sm:h-72 md:h-80 lg:h-[340px]";
-                return (
-                  <motion.div
-                    key={p.node.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: idx * 0.05 }}
-                    className={`group relative rounded-xl border border-border/40 bg-card/40 backdrop-blur-sm overflow-hidden hover:border-crimson/60 hover:shadow-[0_0_40px_-12px_rgba(212,58,78,0.4)] transition-all ${cardSize}`}
+      {/* the catalog */}
+      <section className="mx-auto max-w-[1240px] px-5 pb-24 pt-14 md:px-10">
+        {loading ? (
+          <div className="flex flex-col items-center justify-center gap-4 py-24">
+            <Loader2 className="h-7 w-7 animate-spin text-ink-red" />
+            <p className="smallcaps text-ink-muted">Setting the type…</p>
+          </div>
+        ) : products.length === 0 ? (
+          <div className="border border-ink/30 py-24 text-center">
+            <p className="font-display text-2xl">No products found.</p>
+            <p className="mt-2 font-caslon italic text-ink-muted">The shelves are being restocked. Check back soon.</p>
+          </div>
+        ) : (
+          <div className={products.length === 1 ? "flex justify-center" : "grid gap-x-10 gap-y-14 sm:grid-cols-2 lg:grid-cols-3"}>
+            {products.map((p, idx) => {
+              const img = p.node.images.edges[0]?.node;
+              const price = displayPriceFor(p);
+              const available = p.node.variants.edges.some((v) => v.node.availableForSale);
+              const hasOptions = p.node.options.some((o) => !(o.values.length === 1 && o.values[0] === "Default Title"));
+              const isRosterShirt = isIconicAmericansDrop(p);
+              return (
+                <article key={p.node.id} data-ink="fade" className={`group ${products.length === 1 ? "w-full max-w-[440px]" : ""}`}>
+                  <Link
+                    to={`/product/${p.node.handle}`}
+                    className="relative block border border-ink bg-white shadow-[6px_6px_0_rgba(23,20,15,0.12)] transition-shadow duration-300 group-hover:shadow-[6px_6px_0_#B5242E]"
                   >
-                    <Link to={`/product/${p.node.handle}`} className="block">
-                      <div className={`${imageHeight} bg-secondary/10 overflow-hidden`}>
-                        {img ? (
-                          <img
-                            src={img.url}
-                            alt={img.altText || p.node.title}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                          />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center text-muted-foreground">
-                            No image
-                          </div>
-                        )}
-                      </div>
-                    </Link>
-                    <div className="p-5">
-                      <Link to={`/product/${p.node.handle}`}>
-                        <h3 className="font-bold text-lg mb-1 group-hover:text-crimson transition-colors">
-                          {p.node.title}
-                        </h3>
-                      </Link>
-                      <p className="text-sm text-muted-foreground mb-3">
-                        {price.currencyCode} {parseFloat(price.amount).toFixed(2)}
-                      </p>
-                      {isRosterShirt && (
-                        <Link
-                          to={PEOPLE_GUIDE_PATH}
-                          className="mb-4 flex items-center justify-between gap-3 border-y border-border/60 py-3 text-left transition-colors hover:border-crimson/70"
-                          aria-label="See who is on the 250 Iconic Americans shirt"
-                        >
-                          <span>
-                            <span className="block text-[10px] font-black uppercase tracking-[0.22em] text-crimson">
-                              ID the lineup
-                            </span>
-                            <span className="block text-xs font-semibold text-foreground">
-                              Before your uncle starts yelling “who is that guy?”
-                            </span>
-                          </span>
-                          <span className="shrink-0 text-sm font-black text-crimson">/250</span>
-                        </Link>
-                      )}
-                      {hasOptions ? (
-                        <Button
-                          asChild
-                          disabled={!available}
-                          className="w-full bg-crimson hover:bg-crimson-glow text-primary-foreground font-bold uppercase tracking-wide"
-                        >
-                          <Link to={`/product/${p.node.handle}`}>
-                            {!available ? "Sold Out" : "Select Size"}
-                          </Link>
-                        </Button>
+                    <span className="smallcaps absolute left-3 top-3 z-10 bg-paper-light/90 px-2 py-1 text-[10px] text-ink">
+                      No. {String(idx + 1).padStart(3, "0")}
+                    </span>
+                    <div className="aspect-[4/5] overflow-hidden">
+                      {img ? (
+                        <img
+                          src={img.url}
+                          alt={img.altText || p.node.title}
+                          loading="lazy"
+                          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                        />
                       ) : (
-                        <Button
-                          onClick={() => handleAdd(p)}
-                          disabled={isLoading || !available}
-                          className="w-full bg-crimson hover:bg-crimson-glow text-primary-foreground font-bold uppercase tracking-wide"
-                        >
-                          {!available ? "Sold Out" : isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Add to Cart"}
-                        </Button>
+                        <div className="flex h-full w-full items-center justify-center font-caslon italic text-ink-muted">No image</div>
                       )}
                     </div>
-                  </motion.div>
-                );
-              })}
-            </div>
+                  </Link>
 
-          )}
-        </div>
+                  <div className="mt-5">
+                    <Link to={`/product/${p.node.handle}`} className="flex items-baseline gap-3">
+                      <h3 className="font-display text-2xl leading-tight transition-colors group-hover:text-ink-red">{p.node.title}</h3>
+                      <span className="mb-[6px] min-w-6 flex-1 border-b border-dotted border-ink/40" aria-hidden="true" />
+                      <span className="font-caslon text-lg">{money(price.amount, price.currencyCode)}</span>
+                    </Link>
+
+                    {isRosterShirt && (
+                      <Link
+                        to={PEOPLE_GUIDE_PATH}
+                        className="mt-4 flex items-center justify-between gap-3 border-y border-ink/25 py-3 transition-colors hover:border-ink-red"
+                        aria-label="See who is on the 250 Iconic Americans shirt"
+                      >
+                        <span>
+                          <span className="smallcaps block text-[10px] text-ink-red">ID the lineup</span>
+                          <span className="block font-caslon text-sm italic text-ink-soft">
+                            Before your uncle starts yelling “who is that guy?”
+                          </span>
+                        </span>
+                        <span className="shrink-0 font-caslon font-bold text-ink-red">/250</span>
+                      </Link>
+                    )}
+
+                    <div className="mt-5">
+                      {!available ? (
+                        <span className="btn-outline-ink w-full cursor-not-allowed justify-center opacity-50">Sold Out</span>
+                      ) : hasOptions ? (
+                        <Link to={`/product/${p.node.handle}`} className="btn-press w-full justify-center">
+                          Select Size <span aria-hidden="true">→</span>
+                        </Link>
+                      ) : (
+                        <button onClick={() => handleAdd(p)} disabled={isLoading} className="btn-press w-full justify-center disabled:opacity-50">
+                          {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Add to Cart"}
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        )}
       </section>
+
+      <Footer tone="paper" />
     </div>
   );
 }

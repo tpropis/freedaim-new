@@ -26,9 +26,11 @@ const MOTIONS: Record<string, { from: gsap.TweenVars; to: gsap.TweenVars }> = {
     from: { autoAlpha: 0, scale: 1.9 },
     to: { autoAlpha: 1, scale: 1, duration: 0.5, ease: "back.out(2.2)", stagger: 0.12 },
   },
+  // opacity only (not autoAlpha/visibility), so faded-in content containing
+  // links or buttons stays reachable by keyboard before it has scrolled in
   fade: {
-    from: { autoAlpha: 0, y: 18 },
-    to: { autoAlpha: 1, y: 0, duration: 0.9, ease: "power2.out", stagger: 0.08 },
+    from: { opacity: 0, y: 18 },
+    to: { opacity: 1, y: 0, duration: 0.9, ease: "power2.out", stagger: 0.08 },
   },
 };
 

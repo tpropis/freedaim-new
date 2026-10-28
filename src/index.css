@@ -175,6 +175,10 @@ html.lenis body {
   color: hsl(var(--foreground));
   font-family: "Libre Caslon Text", Georgia, serif;
 }
+/* dialogs (the cart drawer) carry the theme themselves and must stay fixed */
+.theme-paper[role="dialog"] {
+  position: fixed;
+}
 /* Paper grain: a static noise layer, above the page colour but below all content. */
 .theme-paper::before {
   content: "";
