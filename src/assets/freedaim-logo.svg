@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="500" viewBox="0 0 1600 500">
+  <defs>
+    <linearGradient id="gBlue" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4a8fd4"/>
+      <stop offset="100%" stop-color="#2a6cb8"/>
+    </linearGradient>
+    <linearGradient id="gRed" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#d43a4e"/>
+      <stop offset="100%" stop-color="#b22e3f"/>
+    </linearGradient>
+    <clipPath id="clipCircle">
+      <circle cx="180" cy="250" r="122"/>
+    </clipPath>
+  </defs>
+
+  <g id="icon">
+    <circle cx="180" cy="250" r="122" fill="#0f2440"/>
+
+    <g clip-path="url(#clipCircle)">
+      <path d="M40 312 C98 210, 206 166, 316 168 C252 190, 196 232, 150 300 C122 342, 106 379, 91 427 L37 427 C49 384, 62 348, 40 312 Z" fill="url(#gBlue)"/>
+      <path d="M32 356 C98 270, 196 234, 308 240 C246 262, 196 304, 154 364 C137 388, 126 410, 118 430 L60 430 C66 410, 57 388, 32 356 Z" fill="url(#gRed)"/>
+      <path d="M54 332 C112 228, 212 184, 322 185 C259 206, 204 246, 158 312 C135 345, 118 382, 102 425 L70 425 C90 374, 100 334, 54 332 Z" fill="#ffffff"/>
+      <path d="M148 148 C199 121, 248 121, 302 145 C266 151, 233 165, 206 188 C191 200, 179 214, 171 224 L129 224 C149 198, 169 174, 148 148 Z" fill="#0f2440"/>
+    </g>
+
+    <path d="M258 124 l10 21 23 3-17 16 4 23-20-11-20 11 4-23-17-16 23-3z" fill="#d43a4e"/>
+    <path d="M295 132 l4 8 9 1-6 7 1 9-8-4-8 4 1-9-6-7 9-1z" fill="#4a8fd4"/>
+    <circle cx="102" cy="181" r="4" fill="#ffffff" opacity="0.95"/>
+    <circle cx="130" cy="157" r="2.8" fill="#ffffff" opacity="0.95"/>
+  </g>
+
+  <g id="wordmark" transform="translate(390 0)">
+    <text x="0" y="320" font-family="Inter Display, Inter, Arial, sans-serif" font-size="170" font-weight="700" letter-spacing="-6">
+      <tspan fill="#ffffff">freed</tspan><tspan fill="#d43a4e">ai</tspan><tspan fill="#ffffff">m</tspan>
+    </text>
+  </g>
+</svg>

@@ -1,103 +1,275 @@
+/* Fonts (Geist, Geist Mono, Caveat) are loaded from index.html with preconnect. */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  color-scheme: dark;
-}
+@layer base {
+  :root {
+    /* freedaim brand: ink #05070D · navy #0B1530 · red #E5303E · blue #4C8DFF · bone #F2F4F8 */
+    --background: 225 44% 4%;
+    --foreground: 220 33% 96%;
 
-html {
-  scroll-behavior: auto; /* GSAP drives the scroll feel */
-}
+    --card: 225 40% 7%;
+    --card-foreground: 220 33% 96%;
 
-body {
-  margin: 0;
-  background: #070a12;
-  color: #eef1f6;
-  font-family: 'Hanken Grotesk', system-ui, sans-serif;
-  font-weight: 400;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-  overflow-x: hidden;
-}
+    --popover: 225 40% 7%;
+    --popover-foreground: 220 33% 96%;
 
-/* The persistent WebGL stage sits behind the scrolling document. */
-.stage-canvas {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 0;
-  pointer-events: none;
-}
+    --primary: 355 78% 54%;
+    --primary-foreground: 0 0% 100%;
 
-/* Lowest-tier fallback: a static graded hero, no WebGL. */
-.static-hero {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  background:
-    radial-gradient(110% 80% at 50% 16%, rgba(59, 111, 212, 0.18), transparent 58%),
-    linear-gradient(180deg, #070a12 0%, #0d1220 62%, #070a12 100%);
-}
+    --secondary: 224 63% 12%;
+    --secondary-foreground: 220 33% 96%;
 
-/* Calm reveal — fade + small rise on mount (re-keyed elements re-animate). */
-.reveal {
-  opacity: 0;
-  transform: translateY(14px);
-  transition:
-    opacity 0.7s ease,
-    transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
-  will-change: opacity, transform;
-}
-.reveal.in {
-  opacity: 1;
-  transform: none;
-}
+    --muted: 225 24% 11%;
+    --muted-foreground: 222 12% 62%;
 
-::selection {
-  background: #d8404a;
-  color: #fff;
-}
+    --accent: 224 45% 16%;
+    --accent-foreground: 220 33% 96%;
 
-/* Thin custom scrollbar. */
-::-webkit-scrollbar {
-  width: 7px;
-}
-::-webkit-scrollbar-track {
-  background: #070a12;
-}
-::-webkit-scrollbar-thumb {
-  background: #1a2238;
-  border-radius: 4px;
-}
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
 
-@keyframes floatY {
-  0%,
-  100% {
-    transform: translateY(-5px);
-  }
-  50% {
-    transform: translateY(5px);
+    --border: 225 22% 13%;
+    --input: 225 22% 13%;
+    --ring: 355 78% 54%;
+
+    --radius: 0.75rem;
+
+    --navy: 224 63% 12%;
+    --navy-deep: 225 50% 7%;
+    --crimson: 355 78% 54%;
+    --crimson-glow: 355 85% 62%;
+    --blue: 218 100% 65%;
+    --off-white: 220 33% 96%;
+    --steel: 222 12% 62%;
+
+    --sidebar-background: 225 40% 7%;
+    --sidebar-foreground: 220 33% 96%;
+    --sidebar-primary: 355 78% 54%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 225 24% 11%;
+    --sidebar-accent-foreground: 220 33% 96%;
+    --sidebar-border: 225 22% 13%;
+    --sidebar-ring: 355 78% 54%;
   }
 }
 
-@keyframes scrollLine {
-  0% {
-    transform: translateY(-100%);
+@layer base {
+  * {
+    @apply border-border;
   }
-  100% {
-    transform: translateY(250%);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
   html {
-    scroll-behavior: auto;
+    background: hsl(var(--background));
   }
-  .reveal {
-    opacity: 1;
-    transform: none;
-    transition: none;
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    text-rendering: optimizeLegibility;
   }
+  ::selection {
+    background: hsl(var(--crimson));
+    color: #fff;
+  }
+}
+
+/* Lenis smooth scroll */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+@layer components {
+  .eyebrow {
+    @apply font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-foreground/45;
+  }
+  .nav-link {
+    @apply relative font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-foreground/55 transition-colors duration-300 hover:text-foreground;
+  }
+  .nav-link::after {
+    content: "";
+    @apply absolute -bottom-1.5 left-0 h-px w-full origin-right scale-x-0 bg-foreground transition-transform duration-500;
+  }
+  .nav-link:hover::after,
+  .nav-link[aria-current="page"]::after {
+    @apply origin-left scale-x-100;
+  }
+}
+
+@layer utilities {
+  .text-gradient-brand {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, hsl(var(--off-white)), hsl(var(--steel)));
+  }
+  .text-gradient-hero {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, hsl(var(--foreground)) 0%, hsl(var(--off-white)) 50%, hsl(var(--steel)) 100%);
+  }
+  .bg-card-gradient {
+    background: linear-gradient(145deg, hsl(var(--card)) 0%, hsl(225 36% 9%) 100%);
+  }
+  .bg-hero-gradient {
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, hsl(var(--navy) / 0.55) 0%, transparent 60%),
+                radial-gradient(ellipse 50% 40% at 80% 20%, hsl(var(--crimson) / 0.08) 0%, transparent 50%);
+  }
+  .border-glow-subtle {
+    border-color: hsl(var(--border));
+    box-shadow: 0 0 0 1px hsl(var(--border)), 0 0 20px -8px hsl(var(--crimson) / 0.1);
+  }
+  .glow-crimson {
+    box-shadow: 0 0 40px -10px hsl(var(--crimson) / 0.35);
+  }
+  .glow-navy {
+    box-shadow: 0 0 40px -10px hsl(var(--navy) / 0.4);
+  }
+}
+
+/* Nav picks up a glass backdrop once content scrolls under it */
+.nav {
+  border-bottom: 1px solid transparent;
+  transition: background-color 0.5s, backdrop-filter 0.5s, border-color 0.5s;
+}
+.nav.nav-solid {
+  background: hsl(var(--background) / 0.62);
+  backdrop-filter: blur(14px) saturate(1.4);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  border-bottom-color: hsl(var(--foreground) / 0.07);
+}
+
+/* ==========================================================================
+   Paper & Ink — the freedaim Declaration system.
+   Scoped to .theme-paper so pages not yet redesigned keep their dark styling.
+   ========================================================================== */
+.theme-paper {
+  --background: 41 44% 89%; /* paper #EFE7D6 */
+  --foreground: 38 21% 7%; /* ink   #17140F */
+  --card: 41 52% 92%;
+  --card-foreground: 38 21% 7%;
+  --popover: 41 52% 92%;
+  --popover-foreground: 38 21% 7%;
+  --primary: 356 67% 43%; /* declaration red #B5242E */
+  --primary-foreground: 41 44% 95%;
+  --secondary: 219 53% 25%; /* ink blue #1E3663 */
+  --secondary-foreground: 41 44% 95%;
+  --muted: 41 41% 84%;
+  --muted-foreground: 38 13% 37%;
+  --accent: 41 41% 84%;
+  --accent-foreground: 38 21% 7%;
+  --border: 41 28% 74%;
+  --input: 41 28% 74%;
+  --ring: 356 67% 43%;
+  --crimson: 356 67% 43%;
+  --crimson-glow: 356 70% 50%;
+  --off-white: 41 44% 95%;
+  --steel: 38 13% 37%;
+
+  position: relative;
+  isolation: isolate; /* own stacking context, so the grain can sit beneath content */
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: "Libre Caslon Text", Georgia, serif;
+}
+/* Paper grain: a static noise layer, above the page colour but below all content. */
+.theme-paper::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.5;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .27 0 0 0 0 .16 0 0 0 .45 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.theme-paper ::selection {
+  background: #b5242e;
+  color: #f6f0e3;
+}
+
+@layer components {
+  /* letter-spaced small caps, the voice of a printed document */
+  .smallcaps {
+    @apply font-caslon text-[12px] uppercase tracking-[0.3em];
+  }
+  /* the double rule of a broadside */
+  .double-rule {
+    border-top: 1px solid hsl(var(--foreground));
+    border-bottom: 1px solid hsl(var(--foreground));
+    height: 4px;
+  }
+  /* letterpress button: ink block with a red offset that presses in */
+  .btn-press {
+    @apply inline-flex items-center gap-3 bg-ink px-7 py-4 font-caslon text-[13px] font-bold uppercase tracking-[0.2em] text-paper-light;
+    box-shadow: 4px 4px 0 #b5242e;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .btn-press:hover {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 #b5242e;
+  }
+  .btn-press:active {
+    transform: translate(4px, 4px);
+    box-shadow: 0 0 0 #b5242e;
+  }
+  .btn-outline-ink {
+    @apply inline-flex items-center gap-3 border-[1.5px] border-ink px-6 py-[14px] font-caslon text-[12px] font-bold uppercase tracking-[0.2em] text-ink transition-colors duration-200 hover:bg-ink hover:text-paper-light;
+  }
+  .ink-link {
+    @apply font-caslon italic text-ink underline decoration-1 underline-offset-[6px] transition-colors hover:text-ink-red;
+  }
+}
+
+/* Nav in the paper world: Caslon small caps instead of mono */
+.theme-paper .nav-link {
+  font-family: "Libre Caslon Text", Georgia, serif;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  color: hsl(var(--foreground) / 0.75);
+}
+.theme-paper .nav.nav-solid {
+  background: hsl(41 44% 89% / 0.82);
+  border-bottom-color: hsl(var(--foreground) / 0.18);
+}
+
+/* Grievances: a hand-drawn red ink strike, painted as a background so it
+   follows each wrapped line; GSAP scrubs --strike from 0 to 1. */
+.ink-strike {
+  --strike: 0;
+  padding: 0 0.04em;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 24' preserveAspectRatio='none'%3E%3Cpath d='M3 14 C 40 8, 75 18, 110 11 S 175 9, 197 13' fill='none' stroke='%23B5242E' stroke-width='8.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 0 56%;
+  background-size: calc(var(--strike) * 100%) 0.26em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* Flight plan: stamps fill red and legends ink in as the trajectory reaches them */
+.stage-stamp .stamp-fill {
+  opacity: 0;
+  transform: scale(0.4);
+  transition: opacity 0.25s ease, transform 0.35s cubic-bezier(0.34, 1.8, 0.64, 1);
+}
+.stage-stamp .stamp-num {
+  fill: #17140f;
+  transition: fill 0.25s ease;
+}
+.stage-stamp.is-on .stamp-fill {
+  opacity: 1;
+  transform: scale(1);
+}
+.stage-stamp.is-on .stamp-num {
+  fill: #f6f0e3;
+}
+.stage-legend {
+  opacity: 0.45;
+}
+.stage-legend.is-on {
+  opacity: 1;
+  border-color: #b5242e;
 }

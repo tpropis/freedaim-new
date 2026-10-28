@@ -1,9 +1,22 @@
-# Keeps the existing GitHub -> Netlify pipeline working unchanged.
+# freedaim on Netlify (GitHub -> Netlify continuous deploys).
 [build]
   command = "npm run build"
   publish = "dist"
 
-# SPA fallback so the stubbed case-study routes resolve to the app.
+[build.environment]
+  NODE_VERSION = "20"
+
+# The /250 portraits still live on the previous host's asset store. Netlify
+# fetches them server-side so the URLs stay on our domain. Copy them into
+# public/ before the old project is ever deleted, then remove this rule.
+[[redirects]]
+  from = "/__l5e/*"
+  to = "https://id-preview--b27000fb-eb90-4ac4-9ed1-8f587c29bb50.lovable.app/__l5e/:splat"
+  status = 200
+  force = true
+
+# SPA fallback: every route renders the app (Netlify Forms POSTs are handled
+# before redirects, so the Whiteboard submission still works).
 [[redirects]]
   from = "/*"
   to = "/index.html"

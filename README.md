@@ -1,75 +1,36 @@
-# freedaim — cinematic scroll/3D front end
+# freedaim
 
-A scroll-driven WebGL experience for freedaim.com (strategy · brand · AI systems
-for founders). Full-bleed React Three Fiber scenes bound to scroll via GSAP
-ScrollTrigger, with a deliberate non-WebGL pacing break and a tuned American
-color grade.
+Turn ideas into reality — strategy, branding, websites, AI systems, and automation.
 
-## Stack
+The site is "The Declaration": a founder's Declaration of Independence rendered in
+paper and ink. See `roadmap.md` for what's built and what's open.
 
-- React + Vite
-- React Three Fiber + drei (WebGL scenes, transmission/chrome materials)
-- GSAP + ScrollTrigger (scroll → scene/camera state)
-- Tailwind (nav, copy, type)
-- Zustand (shared scroll/perf store read transiently by scenes)
+## Local development
 
-## Run
-
-```bash
+```sh
 npm install
-npm run dev      # local dev
+npm run dev      # http://127.0.0.1:8080
 npm run build    # production build → dist/
-npm run preview  # serve the build
 ```
 
-Deploys as-is via the existing GitHub → Netlify pipeline (`netlify.toml`).
+Built with Vite, React, TypeScript, Tailwind CSS, GSAP + Lenis, and rough.js.
 
-## Architecture
+## Deploys (Netlify)
 
-A single fixed `<Canvas>` (`CinematicStage`) sits behind a tall scrolling
-document. Section heights provide scroll length; `scrollController.js` publishes
-normalized progress to the store; each scene reads it in its own `useFrame`
-loop. The camera dollies down a vertical world column past each scene anchor —
-that travel is the cinematic path.
+Every push to this repo's production branch deploys automatically; pull requests
+get deploy previews. Settings live in `netlify.toml`.
 
-```
-src/
-  scenes/      HeroScene, ServicesScene, WhyScene, ProcessSection (DOM)
-  components/  Nav, GlitchText, ParticleField, GlassPanel, CinematicStage, overlays
-  lib/         scrollController (GSAP), perfTier (device tiering), store, layout, range
-```
+- **Whiteboard submissions** use Netlify Forms (form name `whiteboard`, declared
+  statically in `index.html`). They appear in the Netlify dashboard under
+  **Forms**; turn on email notifications there to get each idea in your inbox.
+- **/250 portraits** are proxied from the previous host via a rewrite in
+  `netlify.toml`. Copy them into `public/` before that host is retired.
+- **Shop** pages call the Shopify Storefront API from the browser
+  (`src/lib/shopify.ts`), so they work on any host.
 
-All copy lives in `src/lib/layout.js`, transcribed from the live freedaim.com.
+## Where things live
 
-## Scenes (mapped to the real site content)
-
-- **Hero** — chrome star on a glass slab, low-density drifting particle field
-  with cursor parallax. "Stop Working on Someone Else's Dream." resolves via
-  GlitchText on load.
-- **Services** — scrubbed reveal of the four services (Business Launch Strategy,
-  Branding & Websites, AI & Automation, Sales & Growth Tools), each a distinct
-  particle form + single-color accent (column / ring / lattice / network).
-- **Why freedaim** — scrubbed Structure → Execution → Systems assembly
-  (blueprint particles → locked glass-panel stack → constellation grid) that
-  literally enacts "chaos → structure → systems" behind the three reasons people
-  stay stuck.
-- **Who It's For / Process / Let's Build** — calmer DOM sections; the canvas
-  fades out for a deliberate non-WebGL break (Process = Clarify · Build ·
-  Automate · Launch).
-
-## Performance & accessibility
-
-- `perfTier.js` probes GPU/mobile/memory and picks `high | mid | low | static`,
-  scaling particle counts, DPR, antialias, and transmission-blur samples. The
-  lowest tier renders a static graded hero (no WebGL).
-- `prefers-reduced-motion` disables scrubbed camera work and shows static scene
-  states (camera snaps to section anchors).
-- WorkScene's WebGL only mounts as it nears the viewport (lazy).
-- The WebGL bundle is code-split so the DOM hero is interactive before
-  three/drei finish streaming in.
-
-## Out of scope (this pass)
-
-- CMS for Work (five projects hardcoded in `lib/layout.js`)
-- Real case-study pages (click target stubbed to a modal)
-- Mobile-specific camera paths (reduced-motion static fallback instead)
+- Copy and sections: `src/components/*Section.tsx`, `src/pages/`
+- Declaration system (ink motion, wax seal, sketches): `src/components/declaration/`
+- Design tokens: `src/index.css` (`.theme-paper`) and `tailwind.config.ts`
+- Logo files: `public/brand/`
